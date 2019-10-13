@@ -1,0 +1,77 @@
+.wb--right > span {
+  display: block;
+}
+.wb--rightTree {
+  overflow-y: auto;
+  height: calc(100% - 135px);
+}
+.wb--rightTree > ul li span[title] {
+  width: calc(100% - 24px);
+}
+.wb--rightTree > ul li span[title] > span.ant-tree-title {
+  width: 100%;
+  display: inline-block;
+}
+.C1Modal {
+  padding: 0px;
+  top: 0;
+  margin: 0;
+}
+.C1Modal > div {
+  margin: 0;
+  padding: 0;
+  top: 0;
+}
+.C1Modal .ant-modal-body {
+  height: 512px;
+}
+div.noFooter div.ant-modal-body {
+  height: 565px;
+}
+.wbList-props-btn {
+  width: 20px;
+  display: flex;
+  align-items: center;
+}
+.wbList-props-btn > div {
+  display: flex;
+  width: 16px;
+  height: 40px;
+  align-items: center;
+  margin-left: 3px;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E4;
+  box-shadow: 1px 0 5px 0 rgba(0, 0, 0, 0.23);
+}
+.wbList {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  z-index: 1000;
+}
+.wb--right {
+  width: 300px;
+  flex-direction: column;
+  background-color: white;
+  border-left: 1px solid #ccc;
+  box-shadow: -1px 0 5px 0 rgba(0, 0, 0, 0.23);
+}
+.btnIcon {
+  margin-right: 16px;
+}
+.wb--right > div:first-child {
+  width: 100%;
+  background-color: #F8F8F8;
+  padding: 10px;
+}
+.wb--right_name {
+  color: #2A2A2A;
+}
+.submitTask > .p {
+  color: red;
+  font-size: 16px;
+}
+.submitTask > .p > hr {
+  border: 2px solid #4A4A4A;
+}
