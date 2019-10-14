@@ -1,14 +1,28 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
- 
+import Layout from './layout'
 class App extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			layoutType: 'login'
+		}
+	}
+	onChangeLayout = (layoutType) => {
+		this.setState({
+			layoutType
+		})
+	}
 	render() {
 		return (
-			<div>appssdvwww</div>
+			<div>
+				<Layout type={this.state.layoutType} />
+			</div>
 		)
 	}
 }
+
 // if (module.hot) {
 // 	hot(module)(() => {
 // 		return App;
