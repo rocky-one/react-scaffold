@@ -1,5 +1,9 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import {
+	BrowserRouter as Router,
+	withRouter,
+} from "react-router-dom"
 import { hot } from 'react-hot-loader/root';
 import Layout from './layout'
 class App extends React.Component {
@@ -14,11 +18,18 @@ class App extends React.Component {
 			layoutType
 		})
 	}
+	onLogin = () => {
+		const { history } = this.props;
+		this.setState({
+			layoutType: ''
+		})
+		history.push('/page1')
+	}
 	render() {
 		return (
-			<div>
-				<Layout type={this.state.layoutType} />
-			</div>
+			<Layout type={this.state.layoutType}
+				onLogin={this.onLogin} />
+
 		)
 	}
 }
@@ -31,9 +42,11 @@ class App extends React.Component {
 
 const render = (Component: React.ComponentType) => {
 	ReactDOM.render(
-		<Component />,
+		<Router>
+			<Component />
+		</Router>,
 		document.getElementById('app')
 	);
 };
 
-render(hot(App));
+render(hot(withRouter(App)));

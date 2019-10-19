@@ -1,9 +1,10 @@
+import React from 'react'
 import LoginLayout from './loginLayout'
 import Layout1 from './layout1'
 
 export default (props: any = {}) => {
 
-    if (!props.type === 'login') {
+    if (props.type === 'login') {
         return <LoginLayout {...props} />
     }
 
