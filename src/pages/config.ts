@@ -1,10 +1,16 @@
 import React from 'react'
-import Login from './login'
-import Page1 from './page1'
-import Page2_1 from './page2/page2_1'
-import Page2 from './page2'
-import Page3 from './page3'
+// import Login from './login'
+// import Page1 from './page1'
+// import Page2_1 from './page2/page2_1'
+// import Page2 from './page2'
+// import Page3 from './page3'
 
+import loadable from '@loadable/component'
+const Login = loadable(() => import('./login'))
+const Page1 = loadable(() => import('./page1'))
+const Page2_1 = loadable(() => import('./page2/page2_1')) // /* webpackChunkName: "page2_1" */ 
+const Page2 = loadable(() => import('./page2'))
+const Page3 = loadable(() => import('./page3'))
 export interface RouteInterface {
     path: string,
     component: React.ComponentType,
