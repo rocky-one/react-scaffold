@@ -15,7 +15,7 @@ var setConfig = function (dll, processEnv, entryName) {
         mode: processEnv,
         output: {
             path: path.resolve(__dirname, '../dist'),
-            publicPath: '',
+            publicPath:'/',
             filename: 'js/[name].[hash:8].js',
             chunkFilename: 'js/[name].[chunkhash:8].js',
         },
@@ -162,7 +162,7 @@ var setConfig = function (dll, processEnv, entryName) {
                             //         libraryDirectory: 'es',
                             //         style: true
                             //     }]],
-                            // babelrc: true, cacheDirectory: true
+                            babelrc: true, cacheDirectory: true
                         }
                     },
                     {

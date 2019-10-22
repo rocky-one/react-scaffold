@@ -11,7 +11,7 @@ var config = setConfig('dll', 'production', 'vendor');
 var webpackDll = {
 	output: {
 		path: path.join(__dirname, '../dist/js/vendor'),
-		publicPath: 'js/vendor',
+		publicPath: '/js/vendor',
 		filename: '[name].[hash:8].js',
 		chunkFilename: '[name].[chunkhash:8].js',
 		library: '[name]',

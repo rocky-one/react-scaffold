@@ -54,18 +54,17 @@ var compiler = webpack(newConfig);
 var server = new webpackDevServer(compiler, {
 	hot: true,
 	port: devport,
-	publicPath: '/',
+	// publicPath: '/',
 	host: '0.0.0.0',
-	contentBase: path.join(__dirname, '../dist'),
+	contentBase: path.join(__dirname, '../dist/'),
+	historyApiFallback: true,
 	stats: {
 		colors: true,
 		modules: false,
 		children: false,
 		chunks: false,
 		chunkModules: false,
-		chunks: false,
 	},
-	historyApiFallback: true,
 	progress: true,
 	// proxy: {
 	// 	'/c1/*':proxyConfig,
