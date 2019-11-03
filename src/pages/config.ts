@@ -1,10 +1,4 @@
 import React from 'react'
-// import Login from './login'
-// import Page1 from './page1'
-// import Page2_1 from './page2/page2_1'
-// import Page2 from './page2'
-// import Page3 from './page3'
-
 import loadable from '@loadable/component'
 const Login = loadable(() => import('./login'))
 const Page1 = loadable(() => import('./page1'))
@@ -19,7 +13,6 @@ export interface RouteInterface {
 }
 
 // 针对不同的布局有不同的路由配置
-
 export const routesLoginLayout = [
     {
         path: '/login',
