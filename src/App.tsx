@@ -6,11 +6,12 @@ import {
 } from "react-router-dom"
 import { hot } from 'react-hot-loader/root';
 import Layout from './layout'
+import './style/app.less'
 class App extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			layoutType: 'login'
+			layoutType: 'layout1'
 		}
 	}
 	onChangeLayout = (layoutType) => {
@@ -20,15 +21,15 @@ class App extends React.Component {
 	}
 	onLogin = () => {
 		const { history } = this.props;
-		this.setState({
-			layoutType: ''
-		})
+		sessionStorage.setItem('login', 'true')
 		history.push('/page1')
 	}
 	render() {
+		const login = sessionStorage.getItem('login')
 		return (
 			<Layout type={this.state.layoutType}
-				onLogin={this.onLogin} />
+				onLogin={this.onLogin} 
+				login={login}/>
 
 		)
 	}

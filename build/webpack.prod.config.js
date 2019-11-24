@@ -3,7 +3,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+// var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var CopyPlugin = require('copy-webpack-plugin');
 var setConfig = require('./webpack.base.config.js');
 var merge = require('webpack-merge');
@@ -58,15 +59,30 @@ var dllProdconfig = {
 			cssProcessorOptions: { safe: true, discardComments: { removeAll: true } },
 			canPrint: true
 		}),
-		new ParallelUglifyPlugin({
-			output: {
-				comments: false,
-			},
-			uglifyJS: {
+		// new ParallelUglifyPlugin({
+		// 	output: {
+		// 		comments: false,
+		// 	},
+		// 	uglifyJS: {
+		// 		compress: {
+		// 			warnings: false,
+		// 			drop_console: true,
+		// 		}
+		// 	}
+		// }),
+		new UglifyJsPlugin({
+			parallel: true,
+			uglifyOptions: {
+				ie8: true,
+				output: {
+					comments: false,
+					beautify: true,
+				},
 				compress: {
-					warnings: false,
 					drop_console: true,
-				}
+					properties: false,
+				},
+				warnings: false
 			}
 		}),
 		new HtmlWebpackPlugin({

@@ -13,7 +13,11 @@ export interface RouteInterface {
 }
 
 // 针对不同的布局有不同的路由配置
-export const routesLoginLayout = [
+export const routesLayout0 = [
+    {
+        path: '/',
+        component: Login,
+    },
     {
         path: '/login',
         component: Login,

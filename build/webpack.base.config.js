@@ -15,12 +15,12 @@ var setConfig = function (dll, processEnv, entryName) {
         mode: processEnv,
         output: {
             path: path.resolve(__dirname, '../dist'),
-            publicPath:'/',
+            publicPath: '/',
             filename: 'js/[name].[hash:8].js',
             chunkFilename: 'js/[name].[chunkhash:8].js',
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx','.less'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.less'],
             modules: [path.resolve(__dirname, '../node_modules')],
             alias: {
                 'react': path.resolve(__dirname, '../node_modules/react'),
@@ -60,12 +60,24 @@ var setConfig = function (dll, processEnv, entryName) {
                 },
                 {
                     test: /\.css$/,
+                    exclude: /node_modules|antd\.css/,
                     use: [
                         {
                             loader: processEnv === 'development' ? "style-loader" : MiniCssExtractPlugin.loader,
                         },
+                        // {
+                        //     loader: 'typings-for-css-modules-loader',
+                        //     options: {
+                        //         modules: true,
+                        //         namedExport: true
+                        //     }
+                        // },
                         {
                             loader: "css-loader",
+                            options: {
+                                modules: true,
+                                localIdentName: '[name][hash:base64:5]'
+                            }
                         },
                     ],
                 },
@@ -76,19 +88,22 @@ var setConfig = function (dll, processEnv, entryName) {
                             loader: processEnv === 'development' ? "style-loader" : MiniCssExtractPlugin.loader,
                         },
                         'happypack/loader?id=less',
-                        
                     ]
                 },
-                // {
-                //     test: /\.(js|jsx)$/,
-                //     include: [
-                //         path.join(__dirname, '../src'),
-                //         path.join(__dirname, '../node_modules')
-                //     ],
-                //     use: {
-                //         loader: 'happypack/loader?id=js',
-                //     }
-                // },
+                {
+                    test: /\.css$/,
+                    include: /node_modules|antd\.css/,
+                    use: [
+                        require.resolve('style-loader'),
+                        {
+                            loader: require.resolve('css-loader'),
+                            options: {
+                                importLoaders: 1,
+                            },
+                        },
+                    ],
+                },
+
                 {
                     test: /\.(ts|tsx)$/,
                     use: {
@@ -107,6 +122,10 @@ var setConfig = function (dll, processEnv, entryName) {
                 loaders: [
                     {
                         loader: "css-loader",
+                        options: {
+                            modules: true,
+                            localIdentName: '[name][hash:base64:5]'
+                        }
                     },
                     {
                         loader: "postcss-loader",
@@ -125,8 +144,8 @@ var setConfig = function (dll, processEnv, entryName) {
                         loader: 'less-loader',
                         options: {
                             modifyVars: {
-                                '@icon-url':'"../../../../../src/css/antd-iconfont/iconfont"',
-                                'font-size-base': '12px',  
+                                '@icon-url': '"../../../../../src/css/antd-iconfont/iconfont"',
+                                'font-size-base': '12px',
                             },
                         }
 
@@ -144,7 +163,7 @@ var setConfig = function (dll, processEnv, entryName) {
                     }
                 ],
             }),
-            
+
             new HappyPack({
                 id: 'ts',
                 threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
@@ -155,14 +174,14 @@ var setConfig = function (dll, processEnv, entryName) {
                         loader: 'babel-loader',
                         options: {
                             presets: ['@babel/preset-env', "@babel/preset-react"],
-                            // plugins: [[
-                            //     "import",
-                            //     {
-                            //         libraryName: "antd",
-                            //         libraryDirectory: 'es',
-                            //         style: true
-                            //     }]],
-                            babelrc: true, cacheDirectory: true
+                            "plugins": [
+                                ["import", {
+                                    "libraryName": "antd",
+                                    "libraryDirectory": "es",
+                                    "style": "css" // `style: true` 会加载 less 文件
+                                }]
+                            ],
+                            // babelrc: true, cacheDirectory: true
                         }
                     },
                     {
