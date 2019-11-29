@@ -1,9 +1,14 @@
 import React from 'react'
 import loadable from '@loadable/component'
+// @ts-ignore
 const Login = loadable(() => import('./login'))
+// @ts-ignore
 const Page1 = loadable(() => import('./page1'))
+// @ts-ignore
 const Page2_1 = loadable(() => import(/* webpackChunkName: "page2_1" */ './page2/page2_1'))
+// @ts-ignore
 const Page2 = loadable(() => import('./page2'))
+// @ts-ignore
 const Page3 = loadable(() => import('./page3'))
 
 export interface RouteInterface {
