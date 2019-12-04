@@ -7,14 +7,21 @@ import {
 import { hot } from 'react-hot-loader/root';
 import Layout from './layout'
 import './style/app.less'
-class App extends React.Component {
+
+type Props = {
+	history: any,
+}
+type State = {
+	layoutType: string,
+}
+class App extends React.Component<Props, State> {
 	constructor(props) {
 		super(props)
 		this.state = {
 			layoutType: 'layout1'
 		}
 	}
-	onChangeLayout = (layoutType) => {
+	onChangeLayout = (layoutType: string) => {
 		this.setState({
 			layoutType
 		})
@@ -26,6 +33,7 @@ class App extends React.Component {
 	}
 	render() {
 		const login = sessionStorage.getItem('login')
+		console.log(this.props,'this.props')
 		return (
 			<Layout type={this.state.layoutType}
 				onLogin={this.onLogin} 
