@@ -1,27 +1,19 @@
 import React, { useState } from 'react'
-import { createContainer } from 'unstated-next'
-// 这里作为共享的数据
-// 分别在CountChild CountChild2中使用
-function useCount() {
-    let [count, setCount] = useState(-0)
-    let decrement = () => setCount(count - 1)
-    let increment = () => setCount(count + 1)
-
-    return { count, setCount, decrement, increment }
-}
-
-const Counter = createContainer(useCount)
+import {CountContainer} from '../../store/count'
 
 export default function Count() {
     return (
-        <Counter.Provider>
-            <CountChild />
-            <CountChild2 />
-        </Counter.Provider>
+        <div>
+            <CountContainer.Provider>
+                <CountChild />
+                <CountChild2 />
+            </CountContainer.Provider>
+        </div>
+        
     )
 }
 function CountChild(){
-    let counter = Counter.useContainer()
+    let counter = CountContainer.useContainer()
     return (
         <div>
             <button onClick={counter.decrement}>-</button>
@@ -31,9 +23,10 @@ function CountChild(){
     )
 }
 function CountChild2(){
-    let counter = Counter.useContainer()
+    let counter = CountContainer.useContainer()
     return (
         <div>
+            <div>{counter.value}</div>
             <p>You clicked {counter.count} times2</p>
         </div>
     )

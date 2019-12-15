@@ -46,6 +46,8 @@
     "redux": "^3.7.2",
     "redux-ignore": "^1.2.5",
     "redux-logger": "^3.0.6",
+    "rxjs": "^6.5.3",
+    "rxjs-hooks": "^0.5.2",
     "unstated-next": "^1.1.0"
   },
   "devDependencies": {

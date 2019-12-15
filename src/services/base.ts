@@ -84,18 +84,22 @@ export default class Base {
             return defaultValue
         }
     }
-    async fetch(params: any) {
-
+    async fetch(params: any, cache: boolean = false) {
+        // 是否使用缓存
+        if(cache && this.result.data){
+            return Promise.resolve(this.result.data)
+        }
         return new Promise((resolve: any) => {
 
             return axios(this.mergeConfig(this.config, params)).then((res) => {
                 const result = res.data
                 if (result.success) {
                     this.result.data = this.handleData(result)
+                    resolve(this.result.data)
                 } else {
                     this.result.error = this.handleError(result)
+                    resolve(this.result.error)
                 }
-                resolve()
             }).catch((err) => {
                 this.result.error = {
                     errorCode: 500,
@@ -103,7 +107,7 @@ export default class Base {
                 }
                 //发送一条错误记录
                 // captureException('netWorkError',res,this.options)
-                resolve()
+                resolve(this.result.error)
             })
         })
     }

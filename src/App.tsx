@@ -33,11 +33,10 @@ class App extends React.Component<Props, State> {
 	}
 	render() {
 		const login = sessionStorage.getItem('login')
-		console.log(this.props,'this.props')
 		return (
 			<Layout type={this.state.layoutType}
-				onLogin={this.onLogin} 
-				login={login}/>
+				onLogin={this.onLogin}
+				login={login} />
 
 		)
 	}
