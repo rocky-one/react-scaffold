@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import {CountContainer} from '../../store/count'
 
-export default function Count() {
+export default function Count(props: any) {
+    console.log(props,3)
     return (
         <div>
             <CountContainer.Provider>
