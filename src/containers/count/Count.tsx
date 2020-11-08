@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import {CountContainer} from '../../store/count'
+import useRequest from '../../hooks/useRequest'
+import getUser from '../../services/home/getUser'
 
 export default function Count(props: any) {
-    console.log(props,3)
     return (
         <div>
             <CountContainer.Provider>
                 <CountChild />
                 <CountChild2 />
+                <CountChild3 />
             </CountContainer.Provider>
         </div>
         
@@ -29,6 +31,17 @@ function CountChild2(){
         <div>
             <div>{counter.value}</div>
             <p>You clicked {counter.count} times2</p>
+        </div>
+    )
+}
+function CountChild3() {
+    const { loading, data} = useRequest(getUser)
+    if(loading) {
+        return <div>loading...</div>
+    }
+    return (
+        <div>
+            数据加载完成
         </div>
     )
 }

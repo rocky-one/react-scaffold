@@ -14,7 +14,7 @@ type Props = {
 type State = {
 	layoutType: string,
 }
-class App extends React.Component<Props, State> {
+class App2 extends React.Component<Props, State> {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -41,7 +41,11 @@ class App extends React.Component<Props, State> {
 		)
 	}
 }
-
+// function App() {
+// 	return <Layout type={this.state.layoutType}
+// 		onLogin={this.onLogin}
+// 		login={login} />
+// }
 // if (module.hot) {
 // 	hot(module)(() => {
 // 		return App;
@@ -57,4 +61,4 @@ const render = (Component: React.ComponentType) => {
 	);
 };
 
-render(hot(withRouter(App)));
+render(hot(withRouter(App2)));

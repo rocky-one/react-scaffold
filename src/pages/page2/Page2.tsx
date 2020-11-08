@@ -2,7 +2,7 @@ import React from 'react'
 import {
     Link,
 } from "react-router-dom"
-import CreateRouter from '../../pages/createRouter'
+import CreateRouter from '../../router/createRouter'
 
 export default function Page2(props: any) {
     return <div>

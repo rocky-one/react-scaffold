@@ -1,11 +1,34 @@
 import React from 'react'
-import Layout0 from './layout0/index'
-import Layout1 from './layout1'
+import {
+    Link,
+} from "react-router-dom"
+import Left from './left'
+import Right from './right'
+import CreateRouter from '../router/createRouter'
+import {routesLayout1} from '../router/config'
+import Login from '../pages/login'
+import { Menu } from 'antd'
 
 export default (props: any = {}) => {
-    if (props.type === 'layout0') {
-        return <Layout0 {...props} />
+    if (!props.login) {
+        return <Login onLogin={props.onLogin} />
     }
-
-    return <Layout1 {...props} />
+    return <div style={{ height: '100%', display: 'flex' }}>
+        <Left>
+            <Menu>
+                <Menu.Item key="1">
+                    <Link to="/page1">page1</Link>
+                </Menu.Item>
+                <Menu.Item key="2">
+                    <Link to="/page2">page2</Link>
+                </Menu.Item>
+                <Menu.Item key="3">
+                    <Link to="/page3">page3</Link>
+                </Menu.Item>
+            </Menu>
+        </Left>
+        <Right>
+            <CreateRouter routes={routesLayout1} />
+        </Right>
+    </div>
 }
