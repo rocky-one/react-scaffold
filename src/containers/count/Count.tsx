@@ -35,13 +35,12 @@ function CountChild2(){
     )
 }
 function CountChild3() {
-    const { loading, data} = useRequest(getUser)
-    if(loading) {
-        return <div>loading...</div>
-    }
+    getUser().subscribe(res => {
+        console.log(res, 999)
+    })
     return (
         <div>
-            数据加载完成
+            rxjsAjax
         </div>
     )
 }
