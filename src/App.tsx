@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import {RecoilRoot} from 'recoil';
 import {
 	BrowserRouter as Router,
 	withRouter,
@@ -54,9 +55,11 @@ class App2 extends React.Component<Props, State> {
 
 const render = (Component: React.ComponentType) => {
 	ReactDOM.render(
-		<Router>
-			<Component />
-		</Router>,
+		<RecoilRoot>
+			<Router>
+				<Component />
+			</Router>
+		</RecoilRoot>,
 		document.getElementById('app')
 	);
 };
