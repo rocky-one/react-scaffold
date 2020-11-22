@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {CountContainer} from '../../store/count'
 import useRequest from '../../hooks/useRequest'
-import getUser from '../../services/home/getUser'
 
 export default function Count(props: any) {
     return (
@@ -35,9 +34,6 @@ function CountChild2(){
     )
 }
 function CountChild3() {
-    getUser().subscribe(res => {
-        console.log(res, 999)
-    })
     return (
         <div>
             rxjsAjax
