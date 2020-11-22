@@ -80,7 +80,7 @@ userMolecule$.next([123])
 const curUserQuery = selector({
   key: 'curUserQuery',
   get: async () => {
-    return []
+    return ['tom']
   }
 })
 
