@@ -8,7 +8,7 @@ import {
 import { hot } from 'react-hot-loader/root';
 import Layout from './layout'
 import './style/app.less'
-
+ 
 type Props = {
 	history: any,
 }

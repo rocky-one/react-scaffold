@@ -1,31 +1,92 @@
-import { atom, selector } from "recoil"
+import { useState, useEffect } from 'react'
+import { atom, selector } from 'recoil'
 import { fromPromise } from 'rxjs/observable/fromPromise'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { BehaviorSubject, Subject, Observable } from 'rxjs'
 import 'rxjs/add/operator/merge'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/concat'
 import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/mergeMap'
-// import { mergeMap, catchError } from 'rxjs/operators'
+import 'rxjs/add/operator/filter'
+import { of } from 'rxjs/observable/of'
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { map } from "core-js/fn/array"
 
 function getUser(params) {
-  console.log(params, 11)
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(['rocky', 'xiaocici'])
-    }, 2000)
-  })
-}
-function getUser2(params) {
-  console.log(params, 22)
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(['rocky2'])
     }, 1000)
   })
 }
+
+
+/**
+ * @desc 基础类，负责初始化state
+ * 提供一些基础方法
+ */
+class BaseStore {
+  constructor() {
+  }
+  initState(state) {
+    this.stateBS$ = new BehaviorSubject(state)
+  }
+  getState() {
+    return this.stateBS$.getValue();
+  }
+  setState(newState) {
+    this.stateBS$.next(newState)
+  }
+  subscribe(callback) {
+    this.stateBS$.subscribe(callback)
+  }
+}
+
+class UserStore extends BaseStore {
+  constructor() {
+    super()
+    this.initState({
+      users: []
+    })
+  }
+  getUser(params) {
+    fromPromise(getUser(params))
+      .map(res => res)
+      .subscribe(res => {
+        this.stateBS$.next({
+          users: res
+        })
+      })
+
+    return this.stateBS$;
+  }
+  searchUser(name) {
+    of(this.getState().users)
+      .map(data => {
+        return data.filter((cur) => name === cur)
+      })
+      .subscribe(res => {
+        this.stateBS$.next({
+          users: res
+        })
+      })
+  }
+}
+
+export const userStore2 = new UserStore()
+
+
+// 通用hooks
+export function useStore(store) {
+  const [state, setState] = useState(store.getState())
+  useEffect(() => {
+    store.subscribe(newStore => {
+      setState(newStore)
+    })
+  }, [])
+
+  return [state, store.setState, store]
+}
+
 
 // // concat 首尾相连按顺序依次输出
 // fromPromise(getUser()).concat(fromPromise(getUser2())).subscribe(res => {
@@ -51,27 +112,6 @@ function getUser2(params) {
 // forkJoin([getUser(), getUser2()]).subscribe(res => {
 //   console.log(res, 'forkJoin')
 // })
-
-const userMolecule$ = new Subject()
-//  处理请求
-.switchMap((res) => fromPromise(getUser(res)))
-// 数据格式处理
-.map(data => data.map(item => item.toUpperCase()))
-
-// 缓存数据
-const userStore$ = new BehaviorSubject({})
-
-userMolecule$.subscribe(userStore$)
-
-userStore$.subscribe(res => {
-  console.log(res, 8)
-})
-
-userMolecule$.next([123])
-userMolecule$.next([123])
-
-// 导出userStore$，由组件去使用和订阅
-// 导出userMolecule$， 由组件发出action
 
 
 

@@ -1,43 +1,24 @@
 
-import React from 'react'
-import Count from '../../containers/count'
-import { useRecoilValue, useRecoilState} from 'recoil'
-import { curUserQuery, inputValueState, filterdInputValue } from '../../store/demo'
-
+import React,  { useState, useEffect  } from 'react'
+import { useStore, userStore2 } from '../../store/demo'
 
 const InputA = () => {
-  const [value, setValue]: any = useRecoilState(inputValueState);
-  const [value2, setValue2] = useRecoilValue(curUserQuery)
+  const [userValue, , userStore] = useStore(userStore2)
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    userStore.getUser()
+  }, [])
   return <div>
-      <div>{value2[0]}</div>
-      <input value={value} onChange={e => setValue(e.target.value)} />
-  </div>;
+      <input onChange={(e) => setValue(e.target.value)} /><button onClick={() => userStore.searchUser(value)}>搜索</button>
+      <h4>用户名：</h4>
+      {
+        userValue.users.map(name => <div key={name}>{name}</div>)
+      }
+  </div>
 };
-const InputFilter = () => {
-    const [value] = useRecoilState(filterdInputValue);
-  
-    return <div>filteredValue: {value}</div>;
-  };
-  
-
-class Test extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return <div>test</div>
-    }
-}
 
 export default function Page1(props: any) {
-    console.log('Page1 render')
-    return <React.Suspense fallback={<div>Loading1111......</div>}>
-        page1
-        <Count test={Test}/>
-        <React.Suspense fallback={<div>Loading222.2.....</div>}>
+    return <React.Suspense fallback={<div>Loading...</div>}>
             <InputA />
         </React.Suspense>
-        <br />
-        <InputFilter />
-      </React.Suspense>
 }
