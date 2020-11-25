@@ -56,7 +56,7 @@ var dllProdconfig = {
 		new OptimizeCssAssetsPlugin({
 			assetNameRegExp: /\.css$/g,
 			cssProcessor: require('cssnano'),
-			cssProcessorOptions: { safe: true, discardComments: { removeAll: true } },
+			cssProcessorOptions: { safe: true, autoprefixer: false, discardComments: { removeAll: true } },
 			canPrint: true
 		}),
 		// new ParallelUglifyPlugin({
@@ -70,21 +70,21 @@ var dllProdconfig = {
 		// 		}
 		// 	}
 		// }),
-		new UglifyJsPlugin({
-			parallel: true,
-			uglifyOptions: {
-				ie8: true,
-				output: {
-					comments: false,
-					beautify: true,
-				},
-				compress: {
-					drop_console: true,
-					properties: false,
-				},
-				warnings: false
-			}
-		}),
+		// new UglifyJsPlugin({
+		// 	parallel: true,
+		// 	uglifyOptions: {
+		// 		ie8: true,
+		// 		output: {
+		// 			comments: false,
+		// 			beautify: true,
+		// 		},
+		// 		compress: {
+		// 			drop_console: true,
+		// 			properties: false,
+		// 		},
+		// 		warnings: false
+		// 	}
+		// }),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
 			template: path.resolve(__dirname, '../src/template/index.html'),
