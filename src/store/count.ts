@@ -1,15 +1,12 @@
-import { useState } from 'react'
-import { createContainer } from 'unstated-next'
-import { interval } from 'rxjs'
-import { useObservable } from 'rxjs-hooks'
+import { useState } from 'react';
+import { createContainer } from 'unstated-next';
 
 // 这里作为共享的数据
 function useCount() {
-    let [count, setCount] = useState(-0)
-    let decrement = () => setCount(count - 1)
-    let increment = () => setCount(count + 1)
-    let value = useObservable(() => interval(1000), 0)
-    return { count, setCount, value, decrement, increment }
+    const [count, setCount] = useState(-0);
+    const decrement = () => setCount(count - 1);
+    const increment = () => setCount(count + 1);
+    return { count, setCount, decrement, increment };
 }
 
-export const CountContainer = createContainer(useCount)
+export default createContainer(useCount);

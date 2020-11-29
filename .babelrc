@@ -1,15 +1,35 @@
 {
   "presets": [
-    "env"
+    [
+      "@babel/preset-env"
+      // {
+      //   "useBuiltIns": "usage",
+      //   "corejs": 3
+      // }
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
-    ["@babel/plugin-proposal-decorators", {
-      "legacy": true
-    }],
-    "@babel/plugin-transform-runtime",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": 3
+      }
+    ],
     "react-hot-loader/babel",
-    "transform-react-jsx", 
-    "@babel/plugin-proposal-class-properties",
+    "transform-react-jsx",
     "@babel/plugin-syntax-dynamic-import"
   ]
 }

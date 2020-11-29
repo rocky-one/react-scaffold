@@ -1,60 +1,18 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
-import {
-	BrowserRouter as Router,
-	withRouter,
-} from "react-router-dom"
+import { setConfig } from 'react-hot-loader';
 import { hot } from 'react-hot-loader/root';
-import Layout from './layout'
-import './style/app.less'
+import Layout from './layout';
+import './style/app.scss';
 
-type Props = {
-	history: any,
-}
-type State = {
-	layoutType: string,
-}
-class App extends React.Component<Props, State> {
-	constructor(props) {
-		super(props)
-		this.state = {
-			layoutType: 'layout1'
-		}
-	}
-	onChangeLayout = (layoutType: string) => {
-		this.setState({
-			layoutType
-		})
-	}
-	onLogin = () => {
-		const { history } = this.props;
-		sessionStorage.setItem('login', 'true')
-		history.push('/page1')
-	}
-	render() {
-		const login = sessionStorage.getItem('login')
-		return (
-			<Layout type={this.state.layoutType}
-				onLogin={this.onLogin}
-				login={login} />
+setConfig({
+	showReactDomPatchNotification: false,
+});
 
-		)
-	}
+// process.env.NODE_ENV
+// process.env.NODE_ENV_APP
+ 
+function App(props: any) {
+	return <Layout {...props} />;
 }
 
-// if (module.hot) {
-// 	hot(module)(() => {
-// 		return App;
-// 	});
-// }
-
-const render = (Component: React.ComponentType) => {
-	ReactDOM.render(
-		<Router>
-			<Component />
-		</Router>,
-		document.getElementById('app')
-	);
-};
-
-render(hot(withRouter(App)));
+export default hot(App);

@@ -3,7 +3,7 @@ declare module '*.css' {
     export default content;
 }
 
-declare module '*.less' {
+declare module '*.scss' {
     const content: any;
     export default content;
 }
