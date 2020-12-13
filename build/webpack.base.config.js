@@ -1,18 +1,15 @@
 const webpack = require('webpack');
-const HappyPack = require('happypack');
-const os = require('os');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const path = require('path');
-const { vendor } = require('./constBase.js');
+const { scssLoader, cssLoader, tsLoader, lessLoader, urlLoader, iconfontLoader } = require('./loaderCore');
 
 const app = process.env.NODE_ENV_APP;
 
-function getBaseConfig(dll, processEnv, entryName) {
+function getBaseConfig(processEnv) {
+
   return {
-    entry: {
-      [entryName]: dll === 'dll' ? vendor : path.resolve(__dirname, '../src/index.tsx'),
-    },
+    entry: path.resolve(__dirname, '../src/index.tsx'),
     mode: processEnv,
     output: {
       path: path.resolve(__dirname, '../dist'),
@@ -21,7 +18,7 @@ function getBaseConfig(dll, processEnv, entryName) {
       chunkFilename: 'js/[name].[chunkhash:8].js',
     },
     resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss'],
+      extensions: ['.ts', '.tsx', '.scss', '.js', '.jsx'],
       modules: [path.resolve(__dirname, '../node_modules')],
       alias: {
         react: path.resolve(__dirname, '../node_modules/react'),
@@ -32,134 +29,55 @@ function getBaseConfig(dll, processEnv, entryName) {
       },
       fallback: { "events": require.resolve("events") }
     },
+    cache: true,
+    optimization: {
+      splitChunks: {
+        minSize: 0,
+        cacheGroups: {
+          // 抽取公用方法
+          common: {
+            name: 'common',
+            chunks: 'all',
+            minChunks: 2,
+            priority: 10,
+          },
+          // 抽取第三方模块的公共库 
+          vendor: {
+            name: "vendor",
+            chunks: "all",
+            test: /[\\/]node_modules[\\/](react|react-dom|axios|react-router-dom)[\\/]/,
+            minChunks: 1,
+            priority: 20,
+          }
+        },
+      },
+    },
     module: {
       rules: [
+        urlLoader(),
+        iconfontLoader(),
         {
-          test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: 'images/[name].[hash:7].[ext]',
-            },
-          },
+          oneOf: [
+            cssLoader(processEnv, true),
+            cssLoader(processEnv, false)
+          ]
         },
         {
-          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-          exclude: /node_modules/,
-          use: [{
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: 'iconfont/[name].[hash:7].[ext]',
-            },
-          }],
+          oneOf: [
+            lessLoader(processEnv, true),
+            lessLoader(processEnv, false),
+          ]
         },
         {
-          test: /\.css$/,
-          use: [
-            {
-              loader: processEnv === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[local]-[hash:base64:4]',
-              },
-            },
-          ],
+          oneOf: [
+            scssLoader(processEnv, true),
+            scssLoader(processEnv, false)
+          ]
         },
-        {
-          test: /\.less$/,
-          use: [
-            {
-              loader: processEnv === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-            },
-            'happypack/loader?id=less',
-          ],
-        },
-        {
-          test: /\.(scss|sass)$/,
-          use: [
-            {
-              loader: processEnv === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-            },
-            'happypack/loader?id=sass',
-          ],
-        },
-        {
-          test: /\.css$/,
-          use: [
-            require.resolve('style-loader'),
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                importLoaders: 1,
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(ts|tsx)$/,
-          use: {
-            loader: 'happypack/loader?id=ts',
-          },
-          exclude: /node_modules/,
-        },
+        tsLoader(),
       ],
     },
     plugins: [
-      // new HappyPack({
-      //   id: 'less',
-      //   threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
-      //   threads: 4,
-      //   verbose: true,
-      //   loaders: [
-      //     {
-      //       loader: 'css-loader',
-      //       options: {
-      //         modules: true,
-      //         localIdentName: '[local]-[hash:base64:4]',
-      //       },
-      //     },
-      //     'postcss-loader',
-      //     'less-loader',
-      //   ],
-      // }),
-      new HappyPack({
-        id: 'sass',
-        threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
-        threads: 4,
-        verbose: true,
-        loaders: [
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName: '[local]-[hash:base64:4]',
-            },
-          },
-          'postcss-loader',
-          'sass-loader',
-        ],
-      }),
-      new HappyPack({
-        id: 'ts',
-        threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
-        threads: 4,
-        verbose: true,
-        loaders: [
-          'babel-loader',
-          {
-            loader: 'ts-loader',
-            options: {
-              happyPackMode: true,
-            },
-          },
-        ],
-      }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(processEnv),
         'process.env.NODE_ENV_APP': `'${app}'`,
