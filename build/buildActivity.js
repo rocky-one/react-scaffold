@@ -12,9 +12,8 @@ const processEnv = 'production';
 
 const baseConfig = {
   entry: {
-    'activity1/index': path.resolve(__dirname, '../src/activities/activity1/index.tsx'),
-    'activity2/index': path.resolve(__dirname, '../src/activities/activity2/index.tsx'),
-    'activity3/index': path.resolve(__dirname, '../src/activities/activity3/index.js')
+    'button1/index': path.resolve(__dirname, '../src/components/button1/index.tsx'),
+    'button2/index': path.resolve(__dirname, '../src/components/button2/index.tsx')
   },
   mode: processEnv,
   output: {
@@ -31,11 +30,6 @@ const baseConfig = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.scss', '.js', '.jsx'],
-    // modules: [path.resolve(__dirname, '../node_modules')],
-    // alias: {
-    //   react: path.resolve(__dirname, '../node_modules/react'),
-    //   'react-dom': '@hot-loader/react-dom',
-    // }
   },
   module: {
     rules: [
@@ -46,10 +40,10 @@ const baseConfig = {
           loader: 'file-loader',
           options: {
             useRelativePath: true,
-            context: path.resolve(__dirname, "../src/activities/"),
+            context: path.resolve(__dirname, "../src/components/"),
             name: '[name].[ext]',
             publicPath: './images',
-            outputPath: path.resolve(__dirname, '../lib')
+            // outputPath: path.resolve(__dirname, '../lib')
           }
         }
       },
@@ -92,20 +86,20 @@ const baseConfig = {
       cssProcessorOptions: { safe: true, autoprefixer: false, discardComments: { removeAll: true } },
       canPrint: true
     }),
-    new CopyPlugin(
-      {
-        patterns: [
-          {
-            from: path.resolve(__dirname, '../src/activities/**/*.json'),
-            to({ absoluteFilename }) {
-              let toPath = absoluteFilename.split('activities/')[1];
-              toPath = toPath.split('/')[0];
-              return `../lib/${toPath}/[name].[ext]`;
-            }
-          }
-        ]
-      }
-    ),
+    // new CopyPlugin(
+    //   {
+    //     patterns: [
+    //       {
+    //         from: path.resolve(__dirname, '../src/activities/**/*.json'),
+    //         to({ absoluteFilename }) {
+    //           let toPath = absoluteFilename.split('activities/')[1];
+    //           toPath = toPath.split('/')[0];
+    //           return `../lib/${toPath}/[name].[ext]`;
+    //         }
+    //       }
+    //     ]
+    //   }
+    // ),
     new EslintDisablePlugin(),
     new VueLoaderPlugin(),
 
