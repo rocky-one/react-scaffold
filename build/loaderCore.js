@@ -74,7 +74,7 @@ function cssLoader(processEnv, useCssModules = false) {
 
 function tsLoader() {
   return {
-    test: /\.(ts|tsx)$/,
+    test: /\.(ts|tsx|jsx)$/,
     exclude: /node_modules/,
     use: [
       'cache-loader',

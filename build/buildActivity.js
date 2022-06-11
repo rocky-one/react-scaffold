@@ -42,7 +42,7 @@ const baseConfig = {
             useRelativePath: true,
             context: path.resolve(__dirname, "../src/components/"),
             name: '[name].[ext]',
-            publicPath: './images',
+            publicPath: 'images',
             // outputPath: path.resolve(__dirname, '../lib')
           }
         }
